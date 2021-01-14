@@ -22,8 +22,10 @@ public class Radix {
     int passes = 1;
     for (int i = 0; i < passes; i++) {  //i is ones column, tens column, etc
       while (data.size() != 0) {
-        int value = data.remove(0);;  //just look at head because everything will shift left when removing from head
-        passes = Math.max(length(value), passes); //gets rid of quadratic in finding passes
+        int value = data.remove(0);  //just look at head because everything will shift left when removing from head
+        if (length(value) > passes) { //gets rid of quadratic in finding passes
+          passes = length(value);
+        }
         int digit = nth(value, i);  //find the bucket to put it in
         bucket[digit].add(value);
       }
@@ -43,7 +45,9 @@ public class Radix {
     for (int i = 0; i < passes; i++) {
       while (data.size() != 0) {
         int value = data.remove(0);;
-        passes = Math.max(length(value), passes);
+        if (length(value) > passes) {
+          passes = length(value);
+        }
         int digit = nth(value, i);
         if (value < 0){
           negative[10 - digit - 1].add(value); //add backwards because smaller digit is greater in negatives
